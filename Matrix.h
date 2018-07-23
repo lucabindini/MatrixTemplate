@@ -70,6 +70,36 @@ public:
         return *this;
     }
 
+    Matrix operator+(const Matrix<T> &rh) const {
+        if (numRows == rh.getNumRows() && numCols == rh.getNumCols()) {
+            Matrix<T> sum(numRows, numCols);
+            for (int i = 0; i < numRows; i++)
+                for (int j = 0; j < numCols; j++)
+                    sum.setElement(i, j, (*this).getElement(i, j) + rh.getElement(i, j));
+            return sum;
+        } else
+            std::cout << "incompatible dimension for sub";
+    }
+
+    Matrix operator-(const Matrix<T> &rh) const {
+        if (numRows == rh.getNumRows() && numCols == rh.getNumCols()) {
+            Matrix<T> sum(numRows, numCols);
+            for (int i = 0; i < numRows; i++)
+                for (int j = 0; j < numCols; j++)
+                    sum.setElement(i, j, (*this).getElement(i, j) - rh.getElement(i, j));
+            return sum;
+        } else
+            std::cout << "incompatible dimension for sub";
+    }
+
+    Matrix transpose() const {
+        Matrix<T> transp(numCols, numRows);
+        for (int i = 0; i < transp.getNumRows(); i++)
+            for (int j = 0; j < transp.getNumCols(); j++)
+                transp.setElement(i, j, (*this).getElement(j, i));
+        return transp;
+    }
+
     void print() {
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++)
