@@ -46,7 +46,23 @@ public:
             return false;
     }
 
-    bool operator==(const Matrix<T> &rh) {
+    void getRow(T row[], const int i) const {
+        if (i < numRows && i >= 0) {
+            for (int j = 0; j < numCols; j++)
+                row[j] = getElement(i, j);
+        } else
+            throw std::out_of_range("index out of range");
+    }
+
+    void getColumn(T column[], const int j) const {
+        if (j < numCols && j >= 0) {
+            for (int i = 0; i < numRows; i++)
+                column[i] = getElement(i, j);
+        } else
+            throw std::out_of_range("index out of range");
+    }
+
+    bool operator==(const Matrix<T> &rh) const {
         if (numRows == rh.getNumRows() && numCols == rh.getNumCols()) {
             for (int i = 0; i < numRows; i++)
                 for (int j = 0; j < numCols; j++)
@@ -57,7 +73,7 @@ public:
             return false;
     }
 
-    Matrix &operator=(const Matrix<T> &rh) {
+    Matrix<T> &operator=(const Matrix<T> &rh) {
         if (this != &rh) {
             if (buffer != nullptr)
                 delete[] buffer;
@@ -71,7 +87,7 @@ public:
         return *this;
     }
 
-    Matrix operator+(const Matrix<T> &rh) const {
+    Matrix<T> operator+(const Matrix<T> &rh) const {
         if (numRows == rh.getNumRows() && numCols == rh.getNumCols()) {
             Matrix<T> sum(numRows, numCols);
             for (int i = 0; i < numRows; i++)
@@ -82,7 +98,7 @@ public:
             throw MatrixDimensionException("incompatible dimension for sum");
     }
 
-    Matrix operator-(const Matrix<T> &rh) const {
+    Matrix<T> operator-(const Matrix<T> &rh) const {
         if (numRows == rh.getNumRows() && numCols == rh.getNumCols()) {
             Matrix<T> sum(numRows, numCols);
             for (int i = 0; i < numRows; i++)
@@ -93,7 +109,27 @@ public:
             throw MatrixDimensionException("incompatible dimension for sub");
     }
 
-    Matrix transpose() const {
+    Matrix<T> operator*(const Matrix<T> &rh) const {
+        if (numCols == rh.getNumRows()) {
+            Matrix<T> prod(numRows, rh.getNumCols());
+            T row[numCols];
+            T column[rh.getNumRows()];
+            int sum;
+            for (int i = 0; i < numRows; i++)
+                for (int j = 0; j < rh.getNumCols(); j++) {
+                    getRow(row, i);
+                    rh.getColumn(column, j);
+                    sum = 0;
+                    for (int k = 0; k < numCols; k++)
+                        sum += (row[k] * column[k]);
+                    prod.setElement(i, j, sum);
+                }
+            return prod;
+        } else
+            throw MatrixDimensionException("incompatible dimension for matrix product");
+    }
+
+    Matrix<T> transpose() const {
         Matrix<T> transp(numCols, numRows);
         for (int i = 0; i < transp.getNumRows(); i++)
             for (int j = 0; j < transp.getNumCols(); j++)
@@ -101,7 +137,15 @@ public:
         return transp;
     }
 
-    void print() {
+    Matrix<T> scalar_product(const int s){
+        Matrix<T> prod(numRows, numCols);
+        for (int i = 0; i < numRows; i++)
+            for (int j = 0; j < numCols; j++)
+                prod.setElement(i, j, (*this).getElement(i, j) * s);
+        return prod;
+    }
+
+    void print() const {
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++)
                 std::cout << buffer[j + i * numCols] << " ";
