@@ -6,6 +6,7 @@
 #define MATRIXTEMPLATE_MATRIX_H
 
 #include <iostream>
+#include "MatrixDimensionException.h"
 
 template<typename T>
 class Matrix {
@@ -78,7 +79,7 @@ public:
                     sum.setElement(i, j, (*this).getElement(i, j) + rh.getElement(i, j));
             return sum;
         } else
-            std::cout << "incompatible dimension for sub";
+            throw MatrixDimensionException("incompatible dimension for sum");
     }
 
     Matrix operator-(const Matrix<T> &rh) const {
@@ -89,7 +90,7 @@ public:
                     sum.setElement(i, j, (*this).getElement(i, j) - rh.getElement(i, j));
             return sum;
         } else
-            std::cout << "incompatible dimension for sub";
+            throw MatrixDimensionException("incompatible dimension for sub");
     }
 
     Matrix transpose() const {

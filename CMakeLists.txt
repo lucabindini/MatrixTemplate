@@ -3,4 +3,4 @@ project(MatrixTemplate)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(MatrixTemplate main.cpp Matrix.h)
+add_executable(MatrixTemplate main.cpp Matrix.h MatrixDimensionException.h)
