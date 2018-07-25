@@ -12,24 +12,24 @@ int main() {
     m.setElement(1, 2, 6);
     Matrix<int> c = m.transpose();
     Matrix<int> d(m);
-    try{
-        Matrix<int> e = m-c;
-    }catch(MatrixDimensionException &e){
-        std::cout<<e.what()<<std::endl;
+    try {
+        Matrix<int> e = m - c;
+    } catch (MatrixDimensionException &e) {
+        std::cout << e.what() << std::endl;
     }
     int row[m.getNumCols()];
-    try{
+    try {
         m.getRow(row, 0);
-        for(int i=0;i<m.getNumCols();i++)
-            std::cout<<row[i]<<" ";
-        std::cout<<std::endl;
-    }catch (std::out_of_range &e){
-        std::cerr<<e.what()<<std::endl;
+        for (int i = 0; i < m.getNumCols(); i++)
+            std::cout << row[i] << " ";
+        std::cout << std::endl;
+    } catch (std::out_of_range &e) {
+        std::cerr << e.what() << std::endl;
     }
     m.print();
     c.print();
     d.print();
-    (m*c).print();
-    (m.scalar_product(2)).print();
+    (m * c).print();
+    (m * 2).print();
     return 0;
 }

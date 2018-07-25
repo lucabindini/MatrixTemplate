@@ -103,7 +103,7 @@ TEST_F(MatrixSuite, TestMatrixProduct) {
 }
 
 TEST_F(MatrixSuite, TestScalarProduct) {
-    Matrix<int> m3 = m1.scalar_product(2);
+    Matrix<int> m3 = m1 * 2;
     ASSERT_EQ(2, m3.getElement(0, 0));
     ASSERT_EQ(4, m3.getElement(0, 1));
     ASSERT_EQ(6, m3.getElement(0, 2));
@@ -112,3 +112,17 @@ TEST_F(MatrixSuite, TestScalarProduct) {
     ASSERT_EQ(12, m3.getElement(1, 2));
 }
 
+TEST_F(MatrixSuite, TestExceptionSum) {
+    Matrix<int> m3(2, 2);
+    EXPECT_THROW((m1 + m3), MatrixDimensionException);
+}
+
+TEST_F(MatrixSuite, TestExceptionSub) {
+    Matrix<int> m3(2, 2);
+    EXPECT_THROW((m1 - m3), MatrixDimensionException);
+}
+
+TEST_F(MatrixSuite, TestExceptionMatrixProduct) {
+    Matrix<int> m3(2, 2);
+    EXPECT_THROW((m1 * m3), MatrixDimensionException);
+}

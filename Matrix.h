@@ -137,7 +137,7 @@ public:
         return transp;
     }
 
-    Matrix<T> scalar_product(const int s){
+    Matrix<T> operator*(const int s){
         Matrix<T> prod(numRows, numCols);
         for (int i = 0; i < numRows; i++)
             for (int j = 0; j < numCols; j++)
